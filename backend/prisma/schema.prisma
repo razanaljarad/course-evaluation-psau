@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  INSTRUCTOR
+  ADMIN
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  role        Role         @default(STUDENT)
+  studentId   String?      @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  enrollments     Enrollment[]
+  evaluations     Evaluation[]
+  contactMessages ContactMessage[]
+}
+
+model Semester {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  year      Int
+  term      String
+  isActive  Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  courses   Course[]
+}
+
+model Course {
+  id           Int          @id @default(autoincrement())
+  code         String
+  name         String
+  description  String?
+  instructorId Int
+  semesterId   Int
+  createdAt    DateTime     @default(now())
+  semester     Semester     @relation(fields: [semesterId], references: [id])
+  enrollments  Enrollment[]
+  evaluations  Evaluation[]
+
+  @@unique([code, semesterId])
+}
+
+model Enrollment {
+  id        Int      @id @default(autoincrement())
+  studentId Int
+  courseId  Int
+  createdAt DateTime @default(now())
+  student   User     @relation(fields: [studentId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([studentId, courseId])
+}
+
+model Question {
+  id          Int      @id @default(autoincrement())
+  text        String
+  category    String
+  order       Int
+  isActive    Boolean  @default(true)
+  answers     Answer[]
+}
+
+model Evaluation {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  courseId    Int
+  semesterId  Int
+  comment     String?
+  submittedAt DateTime @default(now())
+  student     User     @relation(fields: [studentId], references: [id])
+  course      Course   @relation(fields: [courseId], references: [id])
+  answers     Answer[]
+
+  @@unique([studentId, courseId])
+}
+
+model ContactMessage {
+  id         Int       @id @default(autoincrement())
+  studentId  Int
+  subject    String
+  message    String
+  isRead     Boolean   @default(false)
+  reply      String?
+  repliedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  student    User      @relation(fields: [studentId], references: [id])
+}
+
+model Answer {
+  id           Int        @id @default(autoincrement())
+  evaluationId Int
+  questionId   Int
+  rating       Int
+  evaluation   Evaluation @relation(fields: [evaluationId], references: [id])
+  question     Question   @relation(fields: [questionId], references: [id])
+}
