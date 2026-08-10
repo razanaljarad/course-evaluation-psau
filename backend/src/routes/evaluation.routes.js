@@ -5,6 +5,6 @@ const { authenticate, authorize } = require('../middleware/auth.middleware');
 
 router.post('/', authenticate, authorize('STUDENT'), submitEvaluation);
 router.get('/my', authenticate, authorize('STUDENT'), getMyEvaluations);
-router.get('/course/:courseId', authenticate, authorize('ADMIN', 'INSTRUCTOR'), getCourseEvaluations);
+router.get('/course/:courseId', authenticate, getCourseEvaluations);
 
 module.exports = router;

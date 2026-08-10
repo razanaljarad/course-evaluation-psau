@@ -106,7 +106,7 @@ const StudentDashboard: React.FC = () => {
                 <div style={{ ...styles.statLbl, color: colors.textMuted }}>تقييمات مكتملة</div>
               </div>
               <div style={{ ...styles.statBox, background: colors.card, border: `1px solid ${colors.border}` }}>
-                <div style={{ ...styles.statNum, color: '#d97706' }}>{courses.length - myEvaluations.length}</div>
+                <div style={{ ...styles.statNum, color: '#d97706' }}>{Math.max(0, courses.length - myEvaluations.length)}</div>
                 <div style={{ ...styles.statLbl, color: colors.textMuted }}>تقييمات متبقية</div>
               </div>
             </div>

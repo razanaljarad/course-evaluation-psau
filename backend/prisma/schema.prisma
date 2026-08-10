@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -27,13 +28,14 @@ model User {
 }
 
 model Semester {
-  id        Int        @id @default(autoincrement())
-  name      String     @unique
-  year      Int
-  term      String
-  isActive  Boolean    @default(false)
-  createdAt DateTime   @default(now())
-  courses   Course[]
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  year        Int
+  term        String
+  isActive    Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  courses     Course[]
+  evaluations Evaluation[]
 }
 
 model Course {
@@ -80,6 +82,7 @@ model Evaluation {
   submittedAt DateTime @default(now())
   student     User     @relation(fields: [studentId], references: [id])
   course      Course   @relation(fields: [courseId], references: [id])
+  semester    Semester @relation(fields: [semesterId], references: [id])
   answers     Answer[]
 
   @@unique([studentId, courseId])

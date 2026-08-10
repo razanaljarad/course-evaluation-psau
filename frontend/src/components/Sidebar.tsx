@@ -31,7 +31,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, onNavigate, currentP
     { id: 'courses-manage', icon: '📚', label: 'إدارة المقررات' },
     { id: 'inbox', icon: '✉️', label: 'صندوق البريد' },
     { id: 'activity', icon: '📈', label: 'إحصائيات الاستخدام' },
-    { id: 'contact-admin', icon: '💬', label: 'التواصل مع الإدارة', adminOnly: false },
     { id: 'profile', icon: '👤', label: 'الحساب الشخصي' },
   ];
 

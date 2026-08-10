@@ -15,7 +15,7 @@ const ActivityPage: React.FC = () => {
     ]).then(([a, c]) => {
       setAnalytics(a.data);
       setCourseAnalytics(c.data);
-    });
+    }).catch(console.error);
   }, []);
 
   if (!analytics) return <div style={{ color: colors.text, padding: 32 }}>جاري التحميل...</div>;

@@ -13,10 +13,15 @@ const CoursesManagePage: React.FC = () => {
   const [msg, setMsg] = useState('');
 
   const fetchData = async () => {
-    const [cRes, sRes] = await Promise.all([API.get('/courses'), API.get('/semesters')]);
-    setCourses(cRes.data);
-    setSemesters(sRes.data);
-    setLoading(false);
+    try {
+      const [cRes, sRes] = await Promise.all([API.get('/courses'), API.get('/semesters')]);
+      setCourses(cRes.data);
+      setSemesters(sRes.data);
+    } catch (err: any) {
+      setMsg('❌ ' + (err.response?.data?.message || 'حدث خطأ أثناء التحميل'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { fetchData(); }, []);

@@ -6,6 +6,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: "postgresql://postgres:10203040@localhost:5432/course_evaluation_db",
+    url: process.env.DATABASE_URL as string,
   },
 });

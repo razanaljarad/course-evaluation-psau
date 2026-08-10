@@ -1,7 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
 const { PrismaPg } = require('@prisma/adapter-pg');
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:10203040@localhost:5432/course_evaluation_db';
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error('DATABASE_URL environment variable is not set');
+}
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });

@@ -26,7 +26,7 @@ const AdminDashboard: React.FC = () => {
     ]).then(([statsRes, coursesRes]) => {
       setStats(statsRes.data);
       setCourseAnalytics(coursesRes.data);
-    }).finally(() => setLoading(false));
+    }).catch(console.error).finally(() => setLoading(false));
   }, []);
 
   if (loading) return (
