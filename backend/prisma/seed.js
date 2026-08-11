@@ -3,7 +3,7 @@ const { PrismaPg } = require('@prisma/adapter-pg');
 const bcrypt = require('bcryptjs');
 
 const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:10203040@localhost:5432/course_evaluation_db';
-const adapter = new PrismaPg({ connectionString });
+const adapter = new PrismaPg({ connectionString, ssl: connectionString.includes('render.com') ? { rejectUnauthorized: false } : false });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {

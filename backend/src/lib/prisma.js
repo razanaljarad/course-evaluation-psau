@@ -6,7 +6,11 @@ if (!connectionString) {
   throw new Error('DATABASE_URL environment variable is not set');
 }
 
-const adapter = new PrismaPg({ connectionString });
+const ssl = connectionString.includes('render.com') || connectionString.includes('amazonaws.com')
+  ? { rejectUnauthorized: false }
+  : false;
+
+const adapter = new PrismaPg({ connectionString, ssl });
 const prisma = new PrismaClient({ adapter });
 
 module.exports = prisma;
